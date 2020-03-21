@@ -25,7 +25,7 @@ function runSpawn(command, args, extra = {}) {
 
 
 function gitClone(name, branch) {
-  console.log(chalk.blue(`git clone ${name}#${branch}`));
+  console.log(chalk.blue(`git clone ${name}#${branch} into folder '${tempGitRepoFolder}'`));
   return runSpawn(
     'git',
     [
@@ -86,7 +86,7 @@ function symlinkRepo() {
 
 (async function() {
   try {
-    rimraf.sync(workspacePath);
+    rimraf.sync(tempPath);
     await cloneRepository();
     installDependencies();
     await buildRepo();
