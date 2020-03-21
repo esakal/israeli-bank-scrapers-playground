@@ -1,0 +1,25 @@
+{
+  "name": "israeli-bank-scrapers-adapters",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node prepare.js",
+    "start": "babel-node lib/start.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.0",
+    "chalk": "^3.0.0",
+    "fs-extra": "^9.0.0",
+    "inquirer": "^7.1.0",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0"
+  }
+}
