@@ -1,10 +1,9 @@
 import { scrapeVisaCalPayments } from './visa-cal-payments-scraper';
 import { scrapeLeumiUsingAdapters } from './leumi-adapters-scraper';
 import { scrapeLeumiUsingLegacy } from './leumi-legacy-scraper';
-
-const inquirer = require('inquirer');
-const chalk = require('chalk');
-import moment from 'moment';
+import * as inquirer from 'inquirer';
+import * as chalk from 'chalk';
+import * as moment from 'moment';
 
 const VisaCalScraperOption = 'Visa Cal (Adapters)';
 const LeumiLegacyOption = 'Leumi (Legacy)';

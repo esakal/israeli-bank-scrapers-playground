@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import _ from 'lodash';
 import { helpers, visaCalHelpers, visaCalDefinitions } from 'israeli-bank-scrapers';
 
@@ -6,7 +6,16 @@ const { HEADER_SITE, BASE_URL, DATE_FORMAT } = visaCalDefinitions;
 const { validateInThePastYear, fetchGet } = helpers;
 const {convertCurrency, getBankDebitsUrl} = visaCalHelpers;
 
-function convertPayments(payments, bankAccountNumber) {
+interface Payment {
+  accountNumber: string,
+  bankAccountNumber: number,
+  date: Moment,
+  TransactionsCount: number,
+  amount: number,
+  originalCurrency: string
+}
+
+function convertPayments(payments, bankAccountNumber): Payment[] {
   return payments.map((payment) => {
     return {
       accountNumber: payment.CardLast4Digits,
@@ -38,7 +47,7 @@ async function getPaymentsForAllAccounts(authHeader, startDate) {
     const bankDebits = await getBankDebits(authHeader, bank.AccountID, startDate);
     if (_.get(bankDebits, 'Response.Status.Succeeded')) {
       const payments = convertPayments(bankDebits.Debits, bank.AccountNumber);
-      const paymentsByAccounts = _.groupBy(payments, 'accountNumber');
+      const paymentsByAccounts = _.groupBy(payments, 'accountNumber') as Record<string, Payment[]>;
       Object.entries(paymentsByAccounts).forEach(([accountNumber, payments]) => {
         const result = {
           accountNumber,
@@ -80,7 +89,7 @@ export function scrapePaymentsAdapter(options) {
         Authorization: context.getSessionData('visaCal.authHeader'),
         ...HEADER_SITE,
       };
-      const accounts = await getPaymentsForAllAccounts(authHeader, startMoment, options);
+      const accounts = await getPaymentsForAllAccounts(authHeader, startMoment);
 
       return {
         data: {
