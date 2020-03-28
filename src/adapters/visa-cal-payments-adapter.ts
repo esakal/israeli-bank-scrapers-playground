@@ -1,5 +1,6 @@
-import moment, { Moment } from 'moment';
-import _ from 'lodash';
+import * as moment from 'moment';
+import { Moment } from 'moment';
+import * as _ from 'lodash';
 import { helpers, visaCalHelpers, visaCalDefinitions } from 'israeli-bank-scrapers';
 
 const { HEADER_SITE, BASE_URL, DATE_FORMAT } = visaCalDefinitions;
@@ -35,6 +36,7 @@ async function getBankDebits(authHeader, accountId, startDate) {
 
 async function getPaymentsForAllAccounts(authHeader, startDate) {
   const cardsByAccountUrl = `${BASE_URL}/CardsByAccounts`;
+
   const banksResponse = await fetchGet(cardsByAccountUrl, authHeader);
 
   if (!_.get(banksResponse, 'Response.Status.Succeeded')) {
@@ -89,6 +91,7 @@ export function scrapePaymentsAdapter(options) {
         Authorization: context.getSessionData('visaCal.authHeader'),
         ...HEADER_SITE,
       };
+
       const accounts = await getPaymentsForAllAccounts(authHeader, startMoment);
 
       return {

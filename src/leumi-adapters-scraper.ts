@@ -1,14 +1,14 @@
-import { leumiAdapters, runner, puppeteerAdapters,  } from "israeli-bank-scrapers";
+import { leumiAdapters, runner, puppeteerAdapters, RunnerAdapter  } from "israeli-bank-scrapers";
 
 const { loginAdapter, scrapeTransactionsAdapter } = leumiAdapters;
 const {createBrowserAdapter, createBrowserPageAdapter} = puppeteerAdapters;
 
-export async function scrapeLeumiUsingAdapters(startDate, credentials) {
+export async function scrapeLeumiUsingAdapters(startDate, credentials: Record<string,string>) {
   const runnerOptions = {
     onProgress: (e, m) => console.log(`${e} ${m}`)
   };
 
-  const runnerAdapters = [
+  const runnerAdapters : RunnerAdapter[] = [
     createBrowserAdapter({
       verbose: false,
       showBrowser: false,
